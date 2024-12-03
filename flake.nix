@@ -35,6 +35,8 @@
       buildInputs = with pkgs; [
         dotnet-sdk_8
         angularCli
+        # This is a gRPC gui tester
+        # bloomrpc
       ];
       DOTNET_ROOT = "${pkgs.dotnet-runtime_8}"; # Important to run binary
     };

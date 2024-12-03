@@ -25,16 +25,18 @@
         };
       };
 
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
 
-      devShells.x86_64-linux.default = let
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
-      in
-      pkgs.mkShell {
-        buildInputs = with pkgs; [
-          dotnet-sdk_8
-        ];
-        DOTNET_ROOT = "${pkgs.dotnet-runtime_8}"; # Important to run binary
-      };
+    devShells.x86_64-linux.default = let
+      pkgs = import nixpkgs { system = "x86_64-linux"; };
+      angularCli = import ./angular-cli.nix { inherit pkgs; };
+    in
+    pkgs.mkShell {
+      buildInputs = with pkgs; [
+        dotnet-sdk_8
+        angularCli
+      ];
+      DOTNET_ROOT = "${pkgs.dotnet-runtime_8}"; # Important to run binary
+    };
   };
 }

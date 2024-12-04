@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option csharp_namespace = "UserProtoService";
+
+package user;
+
+service User{
+    rpc Register (RegisterRequest) returns (RegisterReply);
+    rpc Login (RegisterRequest) returns (RegisterReply);
+    rpc Me (MeRequest) returns (MeReply);
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message RegisterReply {
+    string token = 1;
+}
+
+message MeRequest {
+    string user_id = 1;
+}
+
+message MeReply {
+    string user_id = 1;
+    string email = 2;
+    string password = 3;
+}

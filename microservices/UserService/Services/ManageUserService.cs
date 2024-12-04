@@ -1,23 +1,41 @@
 using Grpc.Core;
 using UserProtoService;
+using UserModel.Models;
 
 namespace UserService.Services;
 
-public class ManageUserService : User.UserBase
+public class ManageUserService : UserProto.UserProtoBase
 {
     private readonly ILogger<ManageUserService> _logger;
-    public ManageUserService(ILogger<ManageUserService> logger)
+    private readonly UserContext _dbContext;
+    public ManageUserService(ILogger<ManageUserService> logger, UserContext dbContext)
     {
         _logger = logger;
+        _dbContext = dbContext;
     }
 
-    public override Task<RegisterReply> Register(RegisterRequest request, ServerCallContext context)
+    public override async Task<RegisterReply> Register(RegisterRequest request, ServerCallContext context)
     {
-        // TODO: Agregar lógica para registrar usuario y regresar un token
-        return Task.FromResult(new RegisterReply
+        var existingUser = _dbContext.User.FirstOrDefault(u => u.Email == request.Email);
+        if (existingUser != null)
+        {
+            throw new RpcException(new Status(StatusCode.AlreadyExists, "El email ya esta en uso."));
+        }
+
+        var newUser = new User
+        {
+            Email = request.Email,
+            Password = request.Password
+        };
+
+        _dbContext.User.Add(newUser);
+        await _dbContext.SaveChangesAsync();
+
+
+        return new RegisterReply
         {
             Token = $"Email: {request.Email}, Passowrd: {request.Password}"
-        });
+        };
     }
     public override Task<RegisterReply> Login(RegisterRequest request, ServerCallContext context)
     {

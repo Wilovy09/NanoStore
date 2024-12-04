@@ -4,7 +4,7 @@ option csharp_namespace = "UserProtoService";
 
 package user;
 
-service User{
+service UserProto{
     rpc Register (RegisterRequest) returns (RegisterReply);
     rpc Login (RegisterRequest) returns (RegisterReply);
     rpc Me (MeRequest) returns (MeReply);

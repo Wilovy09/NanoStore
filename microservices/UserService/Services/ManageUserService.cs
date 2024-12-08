@@ -50,12 +50,14 @@ public class ManageUserService : UserProto.UserProtoBase
     }
     public override Task<MeReply> Me(MeRequest request, ServerCallContext context)
     {
-        // TODO: Agregar lógica para buscar usuario
+        var user = _dbContext.User.FirstOrDefault(u => u.Id.ToString() == request.UserId);
+        if (user == null) throw new RpcException(new Status(StatusCode.NotFound, "No se encontro el usuario"));
+
         return Task.FromResult(new MeReply
         {
             UserId = request.UserId,
-            Email = "E",
-            Password = "W"
+            Email = user.Email,
+            Password = user.Password
         });
     }
 }

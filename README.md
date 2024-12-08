@@ -1,4 +1,4 @@
-# NanoStore
+# ~NanoStore~ -> Blog
 
 > [!WARNING]
 > Este proyecto es de practica! no se debe usar en producción.
@@ -102,4 +102,3 @@ Quitar una migración
 ```shell
 dotnet ef migrations remove <NOMBRE_MODELO>
 ```
-

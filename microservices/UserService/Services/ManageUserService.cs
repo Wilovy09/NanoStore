@@ -39,7 +39,10 @@ public class ManageUserService : UserProto.UserProtoBase
     }
     public override Task<RegisterReply> Login(RegisterRequest request, ServerCallContext context)
     {
-        // TODO: Agregar lógica para buscar usuario y regresar un token
+        var user = _dbContext.User.FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password);
+
+        if (user == null) throw new RpcException(new Status(StatusCode.PermissionDenied, "Credenciales incorrectas"));
+
         return Task.FromResult(new RegisterReply
         {
             Token = $"Email: {request.Email}, Passowrd: {request.Password}"

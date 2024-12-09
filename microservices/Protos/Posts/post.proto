@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option csharp_namespace = "PostProtoService";
+
+package post;
+
+service PostProto{
+    rpc Create (CreateRequest) returns (CreateReply);
+    rpc Find (FindRequest) returns (FindReply);
+    rpc Update (UpdateRequest) returns (UpdateReply);
+    rpc Delete (DeleteRequest) returns (DeleteReply);
+}
+
+message CreateRequest {
+    int32 owner_id = 1;
+    string image = 2;
+    string title = 3;
+    string description = 4;
+}
+
+message CreateReply {
+    int32 owner_id = 1;
+    string image = 2;
+    string title = 3;
+    string description = 4;
+}
+
+message FindRequest {
+    int32 post_id = 1;
+}
+
+message FindReply {
+    string image = 2;
+    string title = 3;
+    string description = 4;
+}
+
+message UpdateRequest {
+    string image = 2;
+    string title = 3;
+    string description = 4;
+}
+
+message UpdateReply {
+    string image = 2;
+    string title = 3;
+    string description = 4;
+}
+
+message DeleteRequest {
+    int32 post_id = 1;
+}
+
+message DeleteReply {
+    string message = 1;
+}
